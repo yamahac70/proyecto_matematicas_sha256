@@ -15,7 +15,7 @@ from datetime import date
 from datetime import datetime
 from module.correo import sendMailSimple
 archivosHashD={"hashes":[]}
-global canvas, ruta_texto,jsonText
+global canvas, ruta_texto,jsonText,btnEnviar,btnGuardar,textoGenera
 ruta_texto=None
 def scale_image(img_path, width, height):
     # Cargar la imagen original en PhotoImage
@@ -70,6 +70,7 @@ def seleccionar_carpeta():
     else:
         cambio_ruta("No se seleccionó ninguna carpeta")
 def archivoHash(rutasArchivos):
+    global btnEnviar,btnGuardar,textoGenera,canvas
     archivosHashD["hashes"]=[]
     for i in rutasArchivos:
         now=datetime.now();
@@ -81,7 +82,19 @@ def archivoHash(rutasArchivos):
         "hasher": arch,
         "fecha": fechaCompleta})
     cambio_json(archivosHashD)
-
+    btnEnviar.place(
+        x=324.0,
+        y=318.0,
+        width=107.0,
+        height=35.0
+    )
+    btnGuardar.place(
+        x=444.0,
+        y=318.0,
+        width=107.0,
+        height=35.0
+    )
+    canvas.itemconfig(textoGenera, text="Elija que hacer con el archivo generado")
 def guardarArchivo():
     #buscamos el directorio donde guardaremos el archivo
     directorio = filedialog.asksaveasfilename(defaultextension=".json")
@@ -93,7 +106,7 @@ def enviarArchivo():
     sendMailSimple("acostamaurojulian1@gmail.com",archivosHashD)
 
 def cifradoUi():
-    global canvas, ruta_texto,jsonText
+    global canvas, ruta_texto,jsonText,btnEnviar,btnGuardar,textoGenera
     OUTPUT_PATH = Path(__file__).parent
     ASSETS_PATH = OUTPUT_PATH / Path(r"./assets/frame1")
 
@@ -138,51 +151,58 @@ def cifradoUi():
 
     button_image_1 = PhotoImage(
         file=relative_to_assets("button_1.png"))
-    button_1 = Button(
+    btnEnviar = Button(
         image=button_image_1,
         borderwidth=0,
         highlightthickness=0,
         command=lambda: enviarArchivo(),
         relief="flat"
     )
-    button_1.place(
-        x=324.0,
-        y=318.0,
-        width=107.0,
-        height=35.0
-    )
+   
 
     button_image_2 = PhotoImage(
         file=relative_to_assets("button_2.png"))
-    button_2 = Button(
+    btnGuardar = Button(
         image=button_image_2,
         borderwidth=0,
         highlightthickness=0,
         command=lambda: guardarArchivo(),
         relief="flat"
     )
-    button_2.place(
-        x=444.0,
-        y=318.0,
-        width=107.0,
-        height=35.0
+    
+    #x=444.0,
+    #     y=318.0,
+    textoGenera=canvas.create_text(
+        560.0,318.0,
+        anchor="nw",
+        text="",
+        fill="#000000",
+        font=("Inter SemiBold", 11 * -1)
     )
-
-    button_image_3 = PhotoImage(
-        file=relative_to_assets("button_3.png"))
-    button_3 = Button(
-        image=button_image_3,
-        borderwidth=0,
-        highlightthickness=0,
-        command=lambda: print("button_3 clicked"),
-        relief="flat"
+    #button_image_3 = PhotoImage(
+    #    file=relative_to_assets("button_3.png"))
+    #button_3 = Button(
+    #    image=button_image_3,
+    #    borderwidth=0,
+    #    highlightthickness=0,
+    #    command=lambda: print("button_3 clicked"),
+    #    relief="flat"
+    #)
+    #button_3.place(
+    #    x=108.0,
+    #    y=210.0,
+    #    width=107.0,
+    #    height=35.0
+    #)
+    texto=canvas.create_text(
+        25.0,
+        210.0,
+        anchor="nw",
+        text="Al seleccionar una carpeta, se mostrarán sus archivos",
+        fill="#000000",
+        font=("Inter SemiBold", 11 * -1)
     )
-    button_3.place(
-        x=108.0,
-        y=210.0,
-        width=107.0,
-        height=35.0
-    )
+    
 
     btnCarpeta = PhotoImage(
         file=relative_to_assets("button_4.png"))
@@ -261,7 +281,7 @@ def cifradoUi():
         image=button_image_5,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: print("button_5 clicked"),
+        command=lambda: window.destroy(),
         relief="flat"
     )
     button_5.place(

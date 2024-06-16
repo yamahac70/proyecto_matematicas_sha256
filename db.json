@@ -1,14 +1,9 @@
 {
     "hashes": [
         {
-            "archivo": "p1.stl",
-            "hasher": "0e9a9aa5a728e4d00df653f39d4571101d21dec7522bbdac0bc72f0148063fff",
-            "fecha": "14/6/2024, 19:44:8"
-        },
-        {
-            "archivo": "p2.stl",
-            "hasher": "6619acb909887c500c019be9730fcb82af7d18fc96cd98282a9a7fa5c8824c31",
-            "fecha": "14/6/2024, 19:44:8"
+            "archivo": "hola.txt",
+            "hasher": "b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79",
+            "fecha": "16/6/2024, 2:3:52"
         }
     ]
 }

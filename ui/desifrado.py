@@ -13,7 +13,7 @@ import json
 from module.encriptar import verificar_hash
 global estadoJson,rutaJson
 global canvas, imgChek, imgX
-global nombreArchivo,fechaHash,rutaArchivoHash
+global nombreArchivo,fechaHash,rutaArchivoHash,jsonText,btnArchivo
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"./assets/frame2")
 
@@ -53,13 +53,19 @@ def save_json(data, path):
 def cambio_texto(canvas,texto,labelId):    
     canvas.itemconfig(labelId, text=texto)
 def seleccionarJson():
-    global rutaJson,estadoJson
+    global rutaJson,estadoJson,btnArchivo
     try:
         rutaJson = filedialog.askopenfilename(filetypes=[("JSON files", "*.json")])
         #print (rutaJson)
         jsonBase=load_json(rutaJson)
         save_json(jsonBase, "db.json")
         jsonStado(True)
+        btnArchivo.place(
+        x=45.0,
+        y=210.0,
+        width=121.0,
+        height=35.0
+        )
     except Exception as e:
         jsonStado(False)
         print(f"Error al cargar el archivo JSON: {e}")
@@ -88,13 +94,15 @@ def probarArchivo(ruta):
     estado=verificar_hash(ruta, resultadoFiltro[0]["hasher"])
     if estado:
         print("archivo integro")
-        integridadStado(True)
-        cambioNombreArchivo(f"Archivo: {nombreAcortado}")
-        cambioFechaArchivo(f"Fecha: {resultadoFiltro[0]['fecha']} \n Hash: {resultadoFiltro[0]['hasher']}")
-        cambioRutaArchivo(f"Ruta: {ruta} ")
+        #integridadStado(True)
+        #cambioNombreArchivo(f"Archivo: {nombreAcortado}")
+        #cambioFechaArchivo(f"Fecha: {resultadoFiltro[0]['fecha']} \n Hash: {resultadoFiltro[0]['hasher']}")
+        #cambioRutaArchivo(f"Ruta: {ruta} ")
+        infoArchivos(f"Archivo: {nombreAcortado}\n ---------------------------\n Ruta: {ruta} \n---------------------------\nFecha: {resultadoFiltro[0]['fecha']} \n ---------------------------\n Hash: {resultadoFiltro[0]['hasher']} \n  --------------------------\n Integridad:👍")
         messagebox.showinfo("Encontrado", "archivo integro")
     else:
         print("archivo manipulado")
+        infoArchivos(f"Archivo: {nombreAcortado}\n ---------------------------\n Ruta: {ruta} \n---------------------------\nFecha: {resultadoFiltro[0]['fecha']} \n ---------------------------\n Hash: {resultadoFiltro[0]['hasher']} \n  --------------------------\n Integridad:✖️")
         messagebox.showwarning("Error", "archivo manipulado")
     
 def jsonStado(estado):
@@ -119,9 +127,16 @@ def cambioFechaArchivo(fecha):
 def cambioRutaArchivo(ruta):
     global rutaArchivoHash,canvas
     canvas.itemconfig(rutaArchivoHash, text=ruta)
+def infoArchivos(texto):
+    global jsonText
+    jsonText.config(state="normal")
+    jsonText.delete("1.0", "end")  # Borra el contenido actual del Text
+    jsonText.insert("1.0", texto)  # Inserta el nuevo contenido JSON
+    #bloque de edicion
+    jsonText.config(state="disabled")
 def desifrarUi():
  
-    global canvas,nombreArchivo,fechaHash,rutaArchivoHash
+    global canvas,nombreArchivo,fechaHash,rutaArchivoHash,jsonText,btnArchivo
 
 
 
@@ -160,19 +175,14 @@ def desifrarUi():
 
     button_image_1 = PhotoImage(
         file=relative_to_assets("button_1.png"))
-    button_1 = Button(
+    btnArchivo = Button(
         image=button_image_1,
         borderwidth=0,
         highlightthickness=0,
         command=lambda: seleccionar_archivo(),
         relief="flat"
     )
-    button_1.place(
-        x=45.0,
-        y=210.0,
-        width=121.0,
-        height=35.0
-    )
+    
 
     button_image_2 = PhotoImage(
         file=relative_to_assets("button_2.png"))
@@ -207,30 +217,6 @@ def desifrarUi():
         fill="#FFFFFF",
         font=("Inter Bold", 13 * -1)
     )
-    #image_image_3 = PhotoImage(file=relative_to_assets("image_3.png"))
-    #image_5 = canvas.create_image(249.0, 131.0, image=image_image_3)
-    #image_image_4 = PhotoImage(file=relative_to_assets("image_4.png"))
-    #image_6 = canvas.create_image(457.0, 209.0, image=image_image_4)
-    #image_image_3 = PhotoImage(
-    #    file=relative_to_assets("image_3.png"))
-    #image_3 = canvas.create_image(
-    #    249.0,
-    #    131.0,
-    #    image=image_image_3
-    #)
-#
-    #image_image_4 = PhotoImage(
-    #    file=relative_to_assets("image_4.png"))
-    #image_4 = canvas.create_image(
-    #    457.0,
-    #    209.0,
-    #    image=image_image_4
-    #)
-
-    
-
-   
-
     canvas.create_text(
         40.0,
         185.0,
@@ -256,23 +242,23 @@ def desifrarUi():
         fill="#3580F2",
         outline="")
 
-    nombreArchivo=canvas.create_text(
-        342.0,
-        76.0,
-        anchor="nw",
-        text="NOMBRE:ARCHIVO.JS",
-        fill="#000000",
-        font=("Inter Bold", 16 * -1)
-    )
-
-    fechaHash=canvas.create_text(
-        342.0,
-        102.0,
-        anchor="nw",
-        text="FECHA:10/12/2030,00:00",
-        fill="#000000",
-        font=("Inter Bold", 16 * -1)
-    )
+    #nombreArchivo=canvas.create_text(
+    #    342.0,
+    #    76.0,
+    #    anchor="nw",
+    #    text="NOMBRE:ARCHIVO.JS",
+    #    fill="#000000",
+    #    font=("Inter Bold", 16 * -1)
+    #)
+#
+    #fechaHash=canvas.create_text(
+    #    342.0,
+    #    102.0,
+    #    anchor="nw",
+    #    text="FECHA:10/12/2030,00:00",
+    #    fill="#000000",
+    #    font=("Inter Bold", 16 * -1)
+    #)
 
     canvas.create_text(
         332.0,
@@ -292,14 +278,41 @@ def desifrarUi():
         font=("Inter Bold", 16 * -1)
     )
 
-    rutaArchivoHash=canvas.create_text(
-        385.0,
-        173.0,
-        anchor="nw",
-        text="E/ASDASD/AFAS/ARCHIVO.JS",
-        fill="#000000",
-        font=("Inter Bold", 8 * -1)
+    #rutaArchivoHash=canvas.create_text(
+    #    385.0,
+    #    173.0,
+    #    anchor="nw",
+    #    text="E/ASDASD/AFAS/ARCHIVO.JS",
+    #    fill="#000000",
+    #    font=("Inter Bold", 8 * -1)
+    #)
+    jsonText = Text(
+        bd=0,
+        bg="#ffffff",
+        fg="#000716",
+        highlightthickness=1
     )
+    #bg="#D9D9D9",
+    jsonText.place(
+        x=321.0,
+        y=52.0,
+        width=230.0,
+        height=300.0
+    )
+    
+    #  jsonText = Text(
+    #    bd=0,
+    #    bg="#ffffff",
+    #    fg="#000716",
+    #    highlightthickness=0
+    #)
+    ##bg="#D9D9D9",
+    #jsonText.place(
+    #    x=321.0,
+    #    y=52.0,
+    #    width=430.0,
+    #    height=256.0
+    #)
 
     button_image_3 = PhotoImage(
         file=relative_to_assets("button_3.png"))
@@ -307,7 +320,7 @@ def desifrarUi():
         image=button_image_3,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: print("button_3 clicked"),
+        command=lambda: window.destroy(),
         relief="flat"
     )
     button_3.place(

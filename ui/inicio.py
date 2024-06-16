@@ -73,7 +73,7 @@ def inicioUi():
         image=button_image_3,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: print("button_3 clicked"),
+        command=lambda: window.destroy(),
         relief="flat"
     )
     button_3.place(x=466.0, y=266.0, width=83.0, height=35.0)
