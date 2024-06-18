@@ -11,6 +11,7 @@ from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage,filedialog,messa
 import os
 import json
 from module.encriptar import verificar_hash
+from module.busquedaBinaria import busquedaArchivo
 global estadoJson,rutaJson
 global canvas, imgChek, imgX
 global nombreArchivo,fechaHash,rutaArchivoHash,jsonText,btnArchivo
@@ -85,31 +86,36 @@ def seleccionar_archivo():
 
 def probarArchivo(ruta):
     print("probar")
-    resultadoFiltro=[]
+    
     nombreAcortado=ruta.split("/")[len(ruta.split("/"))-1]
     db=load_json("db.json")
     #print(db)
-    for item in db["hashes"]:
-                if item["archivo"] == nombreAcortado:
-                    #print(item["archivo"] == nombreAcortado)
-                    resultadoFiltro.append(item)
-    if len(resultadoFiltro)<1:
+    
+    resultadoFiltro=busquedaArchivo(nombreAcortado, db["hashes"])
+    #if resultadoFiltro==None:
+        
+    
+    #for item in db["hashes"]:
+    #            if item["archivo"] == nombreAcortado:
+    #                #print(item["archivo"] == nombreAcortado)
+    #                resultadoFiltro.append(item)
+    if resultadoFiltro==None:
                 print("No se encontró el archivo")
                 messagebox.showwarning("Error", "No se encontró el archivo")
                 return False
-    
-    estado=verificar_hash(ruta, resultadoFiltro[0]["hasher"])
+    print(resultadoFiltro)
+    estado=verificar_hash(ruta, resultadoFiltro["hasher"])
     if estado:
         print("archivo integro")
         #integridadStado(True)
         #cambioNombreArchivo(f"Archivo: {nombreAcortado}")
         #cambioFechaArchivo(f"Fecha: {resultadoFiltro[0]['fecha']} \n Hash: {resultadoFiltro[0]['hasher']}")
         #cambioRutaArchivo(f"Ruta: {ruta} ")
-        infoArchivos(f"Archivo: {nombreAcortado}\n ---------------------------\n Ruta: {ruta} \n---------------------------\nFecha: {resultadoFiltro[0]['fecha']} \n ---------------------------\n Hash: {resultadoFiltro[0]['hasher']} \n  --------------------------\n Integridad:👍")
+        infoArchivos(f"Archivo: {nombreAcortado}\n ---------------------------\n Ruta: {ruta} \n---------------------------\nFecha: {resultadoFiltro['fecha']} \n ---------------------------\n Hash: {resultadoFiltro['hasher']} \n  --------------------------\n Integridad:👍")
         messagebox.showinfo("Encontrado", "archivo integro")
     else:
         print("archivo manipulado")
-        infoArchivos(f"Archivo: {nombreAcortado}\n ---------------------------\n Ruta: {ruta} \n---------------------------\nFecha: {resultadoFiltro[0]['fecha']} \n ---------------------------\n Hash: {resultadoFiltro[0]['hasher']} \n  --------------------------\n Integridad:✖️")
+        infoArchivos(f"Archivo: {nombreAcortado}\n ---------------------------\n Ruta: {ruta} \n---------------------------\nFecha: {resultadoFiltro['fecha']} \n ---------------------------\n Hash: {resultadoFiltro['hasher']} \n  --------------------------\n Integridad:✖️")
         messagebox.showwarning("Error", "archivo manipulado")
     
 def jsonStado(estado):

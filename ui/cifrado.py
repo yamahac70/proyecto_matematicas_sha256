@@ -182,21 +182,7 @@ def cifradoUi():
         fill="#000000",
         font=("Inter SemiBold", 11 * -1)
     )
-    #button_image_3 = PhotoImage(
-    #    file=relative_to_assets("button_3.png"))
-    #button_3 = Button(
-    #    image=button_image_3,
-    #    borderwidth=0,
-    #    highlightthickness=0,
-    #    command=lambda: print("button_3 clicked"),
-    #    relief="flat"
-    #)
-    #button_3.place(
-    #    x=108.0,
-    #    y=210.0,
-    #    width=107.0,
-    #    height=35.0
-    #)
+  
     texto=canvas.create_text(
         25.0,
         210.0,
