@@ -36,9 +36,12 @@ def cambio_ruta(ruta):
     canvas.itemconfig(ruta_texto, text=ruta)
 def cambio_json(objetoJson):
     global jsonText
+    
     json_str = json.dumps(objetoJson, indent=4, ensure_ascii=False)
+    jsonText.config(state="normal")
     jsonText.delete("1.0", "end")  # Borra el contenido actual del Text
     jsonText.insert("1.0", json_str)  # Inserta el nuevo contenido JSON
+    jsonText.config(state="disabled")
 def carpetaInfo():
     global selected_path
     selected_path = filedialog.askdirectory()
@@ -265,7 +268,8 @@ def cifradoUi():
         bd=0,
         bg="#ffffff",
         fg="#000716",
-        highlightthickness=0
+        highlightthickness=1
+        
     )
     #bg="#D9D9D9",
     jsonText.place(

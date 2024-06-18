@@ -45,6 +45,7 @@ def load_json(ruta):
             return objeto_json
         except json.JSONDecodeError as e:
             print(f"Error al decodificar JSON en el archivo '{ruta}': {e}")
+            messagebox.showwarning("Error", f"Error al decodificar JSON en el archivo '{ruta}': {e}")
             return {}  # Devuelve un diccionario vacío en caso de error
 def save_json(data, path):
     #print(data)
@@ -55,7 +56,13 @@ def cambio_texto(canvas,texto,labelId):
 def seleccionarJson():
     global rutaJson,estadoJson,btnArchivo
     try:
-        rutaJson = filedialog.askopenfilename(filetypes=[("JSON files", "*.json")])
+        archiv=filedialog.askopenfilename(filetypes=[("JSON files", "*.json")])
+        if archiv=="":
+            if rutaJson=="":
+                raise  Exception("No se seleccionó el archivo")
+            return messagebox.showwarning("Error", "No se seleccionó el archivo")
+        
+        rutaJson = archiv
         #print (rutaJson)
         jsonBase=load_json(rutaJson)
         save_json(jsonBase, "db.json")
@@ -81,10 +88,10 @@ def probarArchivo(ruta):
     resultadoFiltro=[]
     nombreAcortado=ruta.split("/")[len(ruta.split("/"))-1]
     db=load_json("db.json")
-    print(db)
+    #print(db)
     for item in db["hashes"]:
                 if item["archivo"] == nombreAcortado:
-                    print(item["archivo"] == nombreAcortado)
+                    #print(item["archivo"] == nombreAcortado)
                     resultadoFiltro.append(item)
     if len(resultadoFiltro)<1:
                 print("No se encontró el archivo")

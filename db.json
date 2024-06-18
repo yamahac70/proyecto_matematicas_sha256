@@ -1,9 +1,14 @@
 {
     "hashes": [
         {
-            "archivo": "hola.txt",
-            "hasher": "b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79",
-            "fecha": "16/6/2024, 2:3:52"
+            "archivo": "sasd.txt",
+            "hasher": "5fd924625f6ab16a19cc9807c7c506ae1813490e4ba675f843d5a10e0baacdb8",
+            "fecha": "17/6/2024, 16:29:53"
+        },
+        {
+            "archivo": "tex.txt",
+            "hasher": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "fecha": "17/6/2024, 16:29:53"
         }
     ]
 }
