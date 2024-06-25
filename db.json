@@ -1,14 +1,9 @@
 {
     "hashes": [
         {
-            "archivo": "sasd.txt",
-            "hasher": "5fd924625f6ab16a19cc9807c7c506ae1813490e4ba675f843d5a10e0baacdb8",
-            "fecha": "17/6/2024, 16:29:53"
-        },
-        {
-            "archivo": "tex.txt",
-            "hasher": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-            "fecha": "17/6/2024, 16:29:53"
+            "archivo": "ErrorLogs.gz",
+            "hasher": "739c7b3b592a3e3059cc2c98976037b0440b414b9933e43132395ac10098adb6",
+            "fecha": "19/6/2024, 15:22:5"
         }
     ]
 }
