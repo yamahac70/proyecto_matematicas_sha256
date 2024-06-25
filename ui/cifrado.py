@@ -15,7 +15,7 @@ from datetime import date
 from datetime import datetime
 from module.correo import sendMailSimple
 archivosHashD={"hashes":[]}
-global canvas, ruta_texto,jsonText,btnEnviar,btnGuardar,textoGenera
+global canvas, ruta_texto,jsonText,btnEnviar,btnGuardar,textoGenera,inputCorreo
 ruta_texto=None
 def scale_image(img_path, width, height):
     # Cargar la imagen original en PhotoImage
@@ -73,7 +73,7 @@ def seleccionar_carpeta():
     else:
         cambio_ruta("No se seleccionó ninguna carpeta")
 def archivoHash(rutasArchivos):
-    global btnEnviar,btnGuardar,textoGenera,canvas
+    global btnEnviar,btnGuardar,textoGenera,canvas,inputCorreo
     archivosHashD["hashes"]=[]
     for i in rutasArchivos:
         now=datetime.now();
@@ -86,15 +86,21 @@ def archivoHash(rutasArchivos):
         "fecha": fechaCompleta})
     cambio_json(archivosHashD)
     btnEnviar.place(
-        x=324.0,
+        x=524.0,
         y=318.0,
         width=107.0,
         height=35.0
     )
     btnGuardar.place(
-        x=444.0,
+        x=644.0,
         y=318.0,
         width=107.0,
+        height=35.0
+    )
+    inputCorreo.place(
+         x=324.0,
+        y=318.0,
+        width=207.0,
         height=35.0
     )
     canvas.itemconfig(textoGenera, text="Elija que hacer con el archivo generado")
@@ -106,10 +112,16 @@ def guardarArchivo():
             json.dump(archivosHashD, archivo)
         messagebox.showinfo("Guardado", "El archivo ha sido guardado con exito")
 def enviarArchivo():
-    sendMailSimple("acostamaurojulian1@gmail.com",archivosHashD)
+    global inputCorreo
+    inp = inputCorreo.get(1.0, "end-1c")
+    if inp=="":
+        inp="acostamaurojulian1@gmail.com"
+    messagebox.showinfo("correo",f"se enviara a {inp}")
+    sendMailSimple(inp,archivosHashD)
+    messagebox.showinfo("correo",f"correo nviado")
 
 def cifradoUi():
-    global canvas, ruta_texto,jsonText,btnEnviar,btnGuardar,textoGenera
+    global canvas, ruta_texto,jsonText,btnEnviar,btnGuardar,textoGenera,inputCorreo
     OUTPUT_PATH = Path(__file__).parent
     ASSETS_PATH = OUTPUT_PATH / Path(r"./assets/frame1")
 
@@ -151,7 +163,10 @@ def cifradoUi():
         200.0,
         image=image_image_2
     )
-
+    #correo texto
+    inputCorreo=Text(window,
+                     height = 5, 
+                   width = 20)
     button_image_1 = PhotoImage(
         file=relative_to_assets("button_1.png"))
     btnEnviar = Button(
